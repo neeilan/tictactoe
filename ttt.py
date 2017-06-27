@@ -22,7 +22,7 @@ class MinimaxTTT():
             if self.is_occupied(cell):
                 continue
             
-            board_copy = self.board[:]
+            board_copy = self.board.copy()
             board_copy[cell] = self.computer
             score = self._minimax_score(board_copy, self.human)
 
@@ -36,13 +36,10 @@ class MinimaxTTT():
         return self.board[i]
     
     def is_occupied(self, cell):
-        return self.board[cell] is not None
-
-    def get_winner(self):
-        return self._get_winner(self.board)        
+        return self.board[cell] is not None       
 
     def _minimax_score(self, board, player):
-        _winner = self._get_winner(board)
+        _winner = self.get_winner(board)
     
         if _winner in [player, -player, 0]:  # game over
             return _winner
@@ -52,7 +49,7 @@ class MinimaxTTT():
         for i in range(9):
             
             if board[i] is None:
-                next_board = board[:]
+                next_board = board.copy()
                 next_board[i] = player
                 next_score = self._minimax_score(next_board, -player)
                 
@@ -64,7 +61,10 @@ class MinimaxTTT():
                     
         return state_score
 
-    def _get_winner(self, board):
+    def get_winner(self, board = None):
+        if board is None:
+            board = self.board
+
         for i in range(3):
             # rows
             if board[i*3] == board[i*3 + 1] == board[i*3 + 2]:

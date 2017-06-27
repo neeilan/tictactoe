@@ -1,5 +1,5 @@
 import tkinter as tk
-import sys
+from functools import partial
 
 from ttt import MinimaxTTT
 
@@ -27,11 +27,10 @@ class Application(tk.Frame):
             print("You lose")
         elif winner == 0:
             print("Tie!")
-        sys.stdout.flush()
         
     def _create_buttons(self):
         for i in range(9):
-            btn = tk.Button(self, height = 8, width = 16, command = lambda i=i:self._on_click(i))
+            btn = tk.Button(self, height = 8, width = 16, command = partial(self._on_click, i))
             btn.grid(row = (i // 3) + 1, column = (i % 3) + 1)
             self.buttons.append(btn)
         
